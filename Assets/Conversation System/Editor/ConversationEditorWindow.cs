@@ -29,6 +29,10 @@ namespace ConversationSystem.Editor {
             if (selected.GetType() != typeof(DefaultAsset)) {
                 Debug.Log(selected.GetType());
                 target = selected as Conversation;
+
+                if (target != null) {
+                    window1 = target.entryNode.position;
+                }
             }
         }
 
@@ -36,10 +40,10 @@ namespace ConversationSystem.Editor {
             if (target != null) {
                 // Node Area
                 GUILayout.BeginArea(new Rect(0, 0, position.width - 250, position.height));
-                DrawNodeCurve(window1, window2); // Here the curve is drawn under the windows
+                //DrawNodeCurve(window1, window2); // Here the curve is drawn under the windows
 
                 BeginWindows();
-                window1 = GUI.Window(1, window1, DrawNodeWindow, "Window 1");   // Updates the Rect's when these are dragged
+                target.entryNode.position = GUI.Window(1, target.entryNode.position, DrawNodeWindow, target.entryNode.text);   // Updates the Rect's when these are dragged
                 window2 = GUI.Window(2, window2, DrawNodeWindow, "Window 2");
                 EndWindows();
                 GUILayout.EndArea();
