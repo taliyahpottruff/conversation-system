@@ -7,8 +7,8 @@ namespace ConversationSystem.Editor {
     public class ConversationEditorWindow : EditorWindow {
         Conversation target;
 
-        Rect window1;
-        Rect window2;
+        List<Node> nodes;
+        List<ConversationEditorConnection> connections;
 
         [MenuItem("Window/Conversation Editor")]
         static void ShowWindow() {
@@ -20,8 +20,24 @@ namespace ConversationSystem.Editor {
         public void Init() {
             titleContent = new GUIContent("Conversation Editor");
 
-            window1 = new Rect(10, 10, 100, 100);
-            window2 = new Rect(210, 210, 100, 100);
+            nodes = new List<Node>();
+            connections = new List<ConversationEditorConnection>();
+
+            OnSelectionChange();
+        }
+
+        private void RefreshNodes() {
+            nodes.Clear();
+            connections.Clear();
+
+            // Add some testing data
+            target.entryNode.next.Add(new Node("Text 2", 0, new Rect(250, 250, 100, 100)));
+
+            // Add to editor
+            nodes.Add(target.entryNode);
+            nodes.Add(target.entryNode.next[0]);
+
+            connections.Add(new ConversationEditorConnection(nodes[0], nodes[1]));
         }
 
         private void OnSelectionChange() {
@@ -29,10 +45,7 @@ namespace ConversationSystem.Editor {
             if (selected.GetType() != typeof(DefaultAsset)) {
                 Debug.Log(selected.GetType());
                 target = selected as Conversation;
-
-                if (target != null) {
-                    window1 = target.entryNode.position;
-                }
+                RefreshNodes();
             }
         }
 
@@ -41,10 +54,18 @@ namespace ConversationSystem.Editor {
                 // Node Area
                 GUILayout.BeginArea(new Rect(0, 0, position.width - 250, position.height));
                 //DrawNodeCurve(window1, window2); // Here the curve is drawn under the windows
+                // Draw curves
+                foreach (var connection in connections) {
+                    DrawNodeCurve(connection.from.position, connection.to.position);
+                }
 
+                // Draw windows
                 BeginWindows();
-                target.entryNode.position = GUI.Window(1, target.entryNode.position, DrawNodeWindow, target.entryNode.text);   // Updates the Rect's when these are dragged
-                window2 = GUI.Window(2, window2, DrawNodeWindow, "Window 2");
+                //target.entryNode.position = GUI.Window(1, target.entryNode.position, DrawNodeWindow, target.entryNode.text);   // Updates the Rect's when these are dragged
+                for (int i = 0; i < nodes.Count; i++) {
+                    var node = nodes[i];
+                    node.position = GUI.Window(i, node.position, DrawNodeWindow, node.text);
+                }
                 EndWindows();
                 GUILayout.EndArea();
 
@@ -69,6 +90,15 @@ namespace ConversationSystem.Editor {
             for (int i = 0; i < 3; i++) // Draw a shadow
                 Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, (i + 1) * 5);
             Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.black, null, 1);
+        }
+    }
+    
+    public struct ConversationEditorConnection {
+        public Node from, to;
+
+        public ConversationEditorConnection(Node from, Node to) {
+            this.from = from;
+            this.to = to;
         }
     }
 }
