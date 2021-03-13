@@ -19,44 +19,44 @@ MonoBehaviour:
     text: Hi there...
     position:
       serializedVersion: 2
-      x: 67
-      y: 130
-      width: 100
-      height: 100
+      x: 16
+      y: 19
+      width: 150
+      height: 200
     next:
     - participant: 0
       text: Hello my child!
       position:
         serializedVersion: 2
-        x: 298
-        y: 176
-        width: 100
-        height: 100
+        x: 231
+        y: 85
+        width: 150
+        height: 200
       next:
-      - participant: -1
-        text: :)
-        position:
-          serializedVersion: 2
-          x: 521
-          y: 45
-          width: 100
-          height: 100
-        next: []
       - participant: -1
         text: I'm not your child.
         position:
           serializedVersion: 2
-          x: 513
-          y: 315
-          width: 100
-          height: 100
+          x: 437
+          y: 260
+          width: 150
+          height: 200
         next:
         - participant: 0
           text: Okay then...
           position:
             serializedVersion: 2
-            x: 697
-            y: 237
-            width: 100
-            height: 100
+            x: 690
+            y: 239
+            width: 150
+            height: 200
           next: []
+      - participant: -1
+        text: :)
+        position:
+          serializedVersion: 2
+          x: 473
+          y: 12
+          width: 150
+          height: 200
+        next: []

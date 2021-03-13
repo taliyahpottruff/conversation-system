@@ -73,8 +73,7 @@ namespace ConversationSystem.Editor {
                 //target.entryNode.position = GUI.Window(1, target.entryNode.position, DrawNodeWindow, target.entryNode.text);   // Updates the Rect's when these are dragged
                 for (int i = 0; i < nodes.Count; i++) {
                     var node = nodes[i];
-                    var participant = (node.participant < 0) ? "Player" : target.participants[node.participant].name;
-                    node.position = GUI.Window(i, node.position, DrawNodeWindow, participant);
+                    node.position = GUI.Window(i, node.position, DrawNodeWindow, "");
                 }
                 EndWindows();
                 GUILayout.EndArea();
@@ -94,16 +93,37 @@ namespace ConversationSystem.Editor {
         }
 
         private void DrawNodeWindow(int id) {
+            var participant = (nodes[id].participant < 0) ? "Player" : target.participants[nodes[id].participant].name;
+            EditorGUILayout.Popup(0, new string[] { "Player", "John Smith" });
+
             nodes[id].text = GUILayout.TextArea(nodes[id].text);
 
             if (GUILayout.Button("New Child")) {
                 Debug.Log("Creating a new child node...");
                 var newPosition = nodes[id].position;
-                newPosition.x += 150;
+                newPosition.x += newPosition.width * 2;
                 var newNode = new Node("New Node", -1, newPosition);
                 nodes[id].next.Add(newNode);
                 nodes.Add(newNode);
                 connections.Add(new ConversationEditorConnection(nodes[id], newNode));
+            }
+
+            if (GUILayout.Button("Delete Node")) {
+                var nodeToDelete = nodes[id];
+
+                // Remove all the connections associated with the node
+                var connectionsToBeDeleted = connections.FindAll(delegate (ConversationEditorConnection conn) { return conn.from == nodeToDelete || conn.to == nodeToDelete; });
+                foreach (var connection in connectionsToBeDeleted) {
+                    if (connection.from == nodeToDelete) {
+                        connections.Remove(connection);
+                    } else if (connection.to == nodeToDelete) {
+                        connection.from.next.Remove(nodeToDelete);
+                        connections.Remove(connection);
+                    }
+                }
+
+                // Remove the node
+                nodes.Remove(nodeToDelete);
             }
 
             GUI.DragWindow();
@@ -117,7 +137,7 @@ namespace ConversationSystem.Editor {
             Color shadowCol = new Color(0, 0, 0, 0.06f);
             for (int i = 0; i < 3; i++) // Draw a shadow
                 Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, (i + 1) * 5);
-            Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.black, null, 1);
+            Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.white, null, 1);
         }
     }
     
