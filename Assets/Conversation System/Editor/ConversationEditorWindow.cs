@@ -73,7 +73,8 @@ namespace ConversationSystem.Editor {
                 //target.entryNode.position = GUI.Window(1, target.entryNode.position, DrawNodeWindow, target.entryNode.text);   // Updates the Rect's when these are dragged
                 for (int i = 0; i < nodes.Count; i++) {
                     var node = nodes[i];
-                    node.position = GUI.Window(i, node.position, DrawNodeWindow, node.text);
+                    var participant = (node.participant < 0) ? "Player" : target.participants[node.participant].name;
+                    node.position = GUI.Window(i, node.position, DrawNodeWindow, participant);
                 }
                 EndWindows();
                 GUILayout.EndArea();
@@ -81,7 +82,14 @@ namespace ConversationSystem.Editor {
                 // Sidebar Area
                 GUILayout.BeginArea(new Rect(position.width - 250, 0, 250, position.height));
                 GUILayout.Label(target.name);
+                GUILayout.Space(10);
+                GUILayout.Label("Participants");
+                foreach (var participant in target.participants) {
+                    GUILayout.Label(participant.name);
+                }
                 GUILayout.EndArea();
+
+                EditorUtility.SetDirty(target);
             }
         }
 

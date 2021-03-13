@@ -12,14 +12,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f88e0ff7addc7a41aec379d7bc9cd30, type: 3}
   m_Name: Testing Convo
   m_EditorClassIdentifier: 
-  participants: []
+  participants:
+  - {fileID: 11400000, guid: 577e5f4a8c1ac264ebc7d8900cd48819, type: 2}
   entryNode:
     participant: -1
-    text: Testing Node
+    text: Hi there...
     position:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 67
+      y: 130
       width: 100
       height: 100
-    next: []
+    next:
+    - participant: 0
+      text: Hello my child!
+      position:
+        serializedVersion: 2
+        x: 298
+        y: 176
+        width: 100
+        height: 100
+      next:
+      - participant: -1
+        text: :)
+        position:
+          serializedVersion: 2
+          x: 521
+          y: 45
+          width: 100
+          height: 100
+        next: []
+      - participant: -1
+        text: I'm not your child.
+        position:
+          serializedVersion: 2
+          x: 513
+          y: 315
+          width: 100
+          height: 100
+        next:
+        - participant: 0
+          text: Okay then...
+          position:
+            serializedVersion: 2
+            x: 697
+            y: 237
+            width: 100
+            height: 100
+          next: []
