@@ -31,15 +31,21 @@ namespace ConversationSystem.Editor {
             connections.Clear();
 
             if (target != null) {
-                // Add some testing data
-                if (target.entryNode.next.Count < 1)
-                    target.entryNode.next.Add(new Node("Text 2", 0, new Rect(250, 250, 100, 100)));
+                // Add nodes and connections
+                NodesAndConnections(target.entryNode);
+            }
+        }
 
-                // Add to editor
-                nodes.Add(target.entryNode);
-                nodes.Add(target.entryNode.next[0]);
+        private void NodesAndConnections(Node node) {
+            // If the node isn't already added, add it
+            if (!nodes.Contains(node)) {
+                nodes.Add(node);
+            }
 
-                connections.Add(new ConversationEditorConnection(nodes[0], nodes[1]));
+            // If any next nodes exist, add connections
+            foreach (var child in node.next) {
+                connections.Add(new ConversationEditorConnection(node, child));
+                NodesAndConnections(child);
             }
         }
 
