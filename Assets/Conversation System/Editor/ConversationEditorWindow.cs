@@ -30,14 +30,17 @@ namespace ConversationSystem.Editor {
             nodes.Clear();
             connections.Clear();
 
-            // Add some testing data
-            target.entryNode.next.Add(new Node("Text 2", 0, new Rect(250, 250, 100, 100)));
+            if (target != null) {
+                // Add some testing data
+                if (target.entryNode.next.Count < 1)
+                    target.entryNode.next.Add(new Node("Text 2", 0, new Rect(250, 250, 100, 100)));
 
-            // Add to editor
-            nodes.Add(target.entryNode);
-            nodes.Add(target.entryNode.next[0]);
+                // Add to editor
+                nodes.Add(target.entryNode);
+                nodes.Add(target.entryNode.next[0]);
 
-            connections.Add(new ConversationEditorConnection(nodes[0], nodes[1]));
+                connections.Add(new ConversationEditorConnection(nodes[0], nodes[1]));
+            }
         }
 
         private void OnSelectionChange() {
@@ -72,12 +75,23 @@ namespace ConversationSystem.Editor {
                 // Sidebar Area
                 GUILayout.BeginArea(new Rect(position.width - 250, 0, 250, position.height));
                 GUILayout.Label(target.name);
-                GUILayout.Button("Do Nothing");
                 GUILayout.EndArea();
             }
         }
 
         private void DrawNodeWindow(int id) {
+            nodes[id].text = GUILayout.TextArea(nodes[id].text);
+
+            if (GUILayout.Button("New Child")) {
+                Debug.Log("Creating a new child node...");
+                var newPosition = nodes[id].position;
+                newPosition.x += 150;
+                var newNode = new Node("New Node", -1, newPosition);
+                nodes[id].next.Add(newNode);
+                nodes.Add(newNode);
+                connections.Add(new ConversationEditorConnection(nodes[id], newNode));
+            }
+
             GUI.DragWindow();
         }
 
