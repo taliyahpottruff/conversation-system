@@ -7,8 +7,8 @@ namespace ConversationSystem.Editor {
     public class ConversationEditorWindow : EditorWindow {
         Conversation target;
 
-        List<Node> nodes;
-        List<ConversationEditorConnection> connections;
+        List<Node> nodes = new List<Node>();
+        List<ConversationEditorConnection> connections = new List<ConversationEditorConnection>();
 
         [MenuItem("Window/Conversation Editor")]
         static void ShowWindow() {
@@ -19,9 +19,6 @@ namespace ConversationSystem.Editor {
 
         public void Init() {
             titleContent = new GUIContent("Conversation Editor");
-
-            nodes = new List<Node>();
-            connections = new List<ConversationEditorConnection>();
 
             OnSelectionChange();
         }
@@ -59,7 +56,7 @@ namespace ConversationSystem.Editor {
         }
 
         private void OnGUI() {
-            if (target != null) {
+            if (target != null && connections != null && nodes != null) {
                 // Node Area
                 GUILayout.BeginArea(new Rect(0, 0, position.width - 250, position.height));
                 //DrawNodeCurve(window1, window2); // Here the curve is drawn under the windows
