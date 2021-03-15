@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 0
+  conversation: {fileID: 11400000, guid: bf096a48e2211e345885aea2a35defcf, type: 2}
 --- !u!4 &336187486
 Transform:
   m_ObjectHideFlags: 0

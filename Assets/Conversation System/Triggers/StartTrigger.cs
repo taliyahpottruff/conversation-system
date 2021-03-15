@@ -6,6 +6,7 @@ using UnityEngine;
 namespace ConversationSystem.Triggers {
     public class StartTrigger : MonoBehaviour {
         public float delay;
+        public Conversation conversation;
 
         private ConversationUI conversationBox;
 
@@ -16,7 +17,9 @@ namespace ConversationSystem.Triggers {
         private IEnumerator StartConversation_Coroutine() {
             yield return new WaitForSeconds(delay);
             Debug.Log("Start Conversation...");
-            Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Conversation"));
+            var obj = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Conversation"));
+            var ui = obj.GetComponentInChildren<ConversationUI>();
+            ui.Init(conversation);
         }
     }
 }
