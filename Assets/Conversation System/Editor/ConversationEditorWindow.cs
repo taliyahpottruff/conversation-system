@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -93,7 +92,12 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
                 for (int i = 0; i < nodes.Count; i++)
                 {
                     var node = nodes[i];
+                    var previousPosition = node.position;
                     node.position = GUI.Window(i, node.position, DrawNodeWindow, "");
+                    if (!node.position.Equals(previousPosition))
+                    {
+                        EditorUtility.SetDirty(target);
+                    }
                 }
                 EndWindows();
                 GUILayout.EndArea();
@@ -108,17 +112,21 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
                     GUILayout.Label(participant.name);
                 }
                 GUILayout.EndArea();
-
-                EditorUtility.SetDirty(target);
             }
         }
 
         private void DrawNodeWindow(int id)
         {
             var participant = (nodes[id].participant < 0) ? "Player" : target.participants[nodes[id].participant].name;
+            // TODO: Make this not hardcoded
             EditorGUILayout.Popup(0, new string[] { "Player", "John Smith" });
 
+            var previousText = nodes[id].text;
             nodes[id].text = GUILayout.TextArea(nodes[id].text);
+            if (!previousText.Equals(nodes[id].text))
+            {
+                EditorUtility.SetDirty(target);
+            }
 
             if (GUILayout.Button("New Child"))
             {
@@ -129,6 +137,7 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
                 nodes[id].next.Add(newNode);
                 nodes.Add(newNode);
                 connections.Add(new ConversationEditorConnection(nodes[id], newNode));
+                EditorUtility.SetDirty(target);
             }
 
             if (GUILayout.Button("Delete Node"))
@@ -152,6 +161,8 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
 
                 // Remove the node
                 nodes.Remove(nodeToDelete);
+
+                EditorUtility.SetDirty(target);
             }
 
             GUI.DragWindow();
