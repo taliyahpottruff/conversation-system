@@ -6,5 +6,7 @@ namespace TaliyahPottruff.ConversationSystem
 {
     public class Conversation : MonoBehaviour
     {
+        public Character[] participants;
+        public Node entryNode = new Node("Testing Node");
     }
 }

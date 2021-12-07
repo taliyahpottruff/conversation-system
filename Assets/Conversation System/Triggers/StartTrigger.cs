@@ -1,9 +1,9 @@
-﻿using ConversationSystem.UI;
+﻿using TaliyahPottruff.ConversationSystem.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ConversationSystem.Triggers
+namespace TaliyahPottruff.ConversationSystem.Triggers
 {
     public class StartTrigger : MonoBehaviour
     {

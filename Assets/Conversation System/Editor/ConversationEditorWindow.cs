@@ -57,12 +57,21 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
         private void OnSelectionChange()
         {
             var selected = Selection.activeObject;
-            if (selected.GetType() != typeof(DefaultAsset))
+            target = null;
+            if (selected != null)
             {
-                Debug.Log(selected.GetType());
-                target = selected as Conversation;
-                RefreshNodes();
+                if (selected.GetType() == typeof(GameObject))
+                {
+                    var go = selected as GameObject;
+                    var conversation = go.GetComponent<Conversation>();
+
+                    if (conversation != null)
+                    {
+                        target = conversation;
+                    }
+                }
             }
+            RefreshNodes();
         }
 
         private void OnGUI()
