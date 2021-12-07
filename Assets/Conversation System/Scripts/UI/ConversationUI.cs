@@ -31,8 +31,11 @@ namespace ConversationSystem.UI {
         private void Update() {
             // TODO: Temporary, please use new input system
             if (Input.GetKeyDown(KeyCode.Space) && !typing && m_conversation != null && currentNode != null) {
+                // Hide the options if shown
+                optionsHolder.SetActive(false);
+
+                // TODO: Only do this if 1 or 0 options
                 if (currentNode.next.Count > 0) {
-                    // TODO: Show options if multiple branches exist
                     currentNode = currentNode.next[0];
                     StartCoroutine(Typing_Coroutine(currentNode));
                 } else {
@@ -47,6 +50,20 @@ namespace ConversationSystem.UI {
             typing = true;
             nametag.text = toType.participant.ToString(); // TODO: This is just an ID right now, needs to be a name
             text.text = "";
+
+            // Show options if multiple branches exist
+            if (toType.next.Count > 1) {
+                optionsHolder.SetActive(true);
+                for (int i = 0; i < optionsHolder.transform.childCount; i++) {
+                    var child = optionsHolder.transform.GetChild(i);
+                    Destroy(child.gameObject);
+                }
+                foreach (var option in toType.next) {
+                    var obj = Instantiate<GameObject>(optionButton, optionsHolder.transform);
+                    var tmp = obj.GetComponentInChildren<TextMeshProUGUI>();
+                    tmp.text = option.text;
+                }
+            }
 
             // Typing loop
             var characters = toType.text.Length;
