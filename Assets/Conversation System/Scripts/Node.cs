@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace TaliyahPottruff.ConversationSystem
 {
@@ -11,6 +12,8 @@ namespace TaliyahPottruff.ConversationSystem
         public string text;
         public Rect position;
         public List<Node> next;
+        public UnityEvent lineStart;
+        public UnityEvent lineEnd;
 
         public Node() : this("", -1, new Rect(0, 0, 150, 200))
         {

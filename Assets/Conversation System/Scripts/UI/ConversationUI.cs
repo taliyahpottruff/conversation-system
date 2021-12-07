@@ -29,6 +29,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
         {
             this.m_conversation = conversation;
             currentNode = conversation.entryNode;
+            conversation.onStart.Invoke();
             StartCoroutine(Typing_Coroutine(currentNode));
         }
 
@@ -60,6 +61,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
             typing = true;
             nametag.text = toType.participant.ToString(); // TODO: This is just an ID right now, needs to be a name
             text.text = "";
+            toType.lineStart.Invoke();
 
             // Show options if multiple branches exist
             if (toType.next.Count > 1)
@@ -88,6 +90,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
 
             // When finished
             typing = false;
+            toType.lineEnd.Invoke();
         }
     }
 }
