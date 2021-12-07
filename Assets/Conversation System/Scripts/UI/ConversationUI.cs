@@ -2,8 +2,10 @@
 using TMPro;
 using UnityEngine;
 
-namespace ConversationSystem.UI {
-    public class ConversationUI : MonoBehaviour {
+namespace TaliyahPottruff.ConversationSystem.UI
+{
+    public class ConversationUI : MonoBehaviour
+    {
         private Conversation m_conversation;
         public Conversation Conversation { get => m_conversation; }
 
@@ -18,47 +20,58 @@ namespace ConversationSystem.UI {
         private Node currentNode;
         private bool typing;
 
-        private void Start() {
+        private void Start()
+        {
             Debug.Log("Conversation UI initialized...");
         }
 
-        public void Init(Conversation conversation) {
+        public void Init(Conversation conversation)
+        {
             this.m_conversation = conversation;
             currentNode = conversation.entryNode;
             StartCoroutine(Typing_Coroutine(currentNode));
         }
 
-        private void Update() {
+        private void Update()
+        {
             // TODO: Temporary, please use new input system
-            if (Input.GetKeyDown(KeyCode.Space) && !typing && m_conversation != null && currentNode != null) {
+            if (Input.GetKeyDown(KeyCode.Space) && !typing && m_conversation != null && currentNode != null)
+            {
                 // Hide the options if shown
                 optionsHolder.SetActive(false);
 
                 // TODO: Only do this if 1 or 0 options
-                if (currentNode.next.Count > 0) {
+                if (currentNode.next.Count > 0)
+                {
                     currentNode = currentNode.next[0];
                     StartCoroutine(Typing_Coroutine(currentNode));
-                } else {
+                }
+                else
+                {
                     // End of conversation
                     Destroy(canvas);
                 }
             }
         }
 
-        private IEnumerator Typing_Coroutine(Node toType) {
+        private IEnumerator Typing_Coroutine(Node toType)
+        {
             // Setup
             typing = true;
             nametag.text = toType.participant.ToString(); // TODO: This is just an ID right now, needs to be a name
             text.text = "";
 
             // Show options if multiple branches exist
-            if (toType.next.Count > 1) {
+            if (toType.next.Count > 1)
+            {
                 optionsHolder.SetActive(true);
-                for (int i = 0; i < optionsHolder.transform.childCount; i++) {
+                for (int i = 0; i < optionsHolder.transform.childCount; i++)
+                {
                     var child = optionsHolder.transform.GetChild(i);
                     Destroy(child.gameObject);
                 }
-                foreach (var option in toType.next) {
+                foreach (var option in toType.next)
+                {
                     var obj = Instantiate<GameObject>(optionButton, optionsHolder.transform);
                     var tmp = obj.GetComponentInChildren<TextMeshProUGUI>();
                     tmp.text = option.text;
@@ -67,7 +80,8 @@ namespace ConversationSystem.UI {
 
             // Typing loop
             var characters = toType.text.Length;
-            for (int i = 0; i < characters; i++) {
+            for (int i = 0; i < characters; i++)
+            {
                 text.text = toType.text.Substring(0, i + 1);
                 yield return new WaitForSeconds(1f / charactersPerSecond);
             }

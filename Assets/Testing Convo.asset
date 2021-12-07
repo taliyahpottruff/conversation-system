@@ -19,8 +19,8 @@ MonoBehaviour:
     text: Hi there...
     position:
       serializedVersion: 2
-      x: 16
-      y: 19
+      x: 35
+      y: 87
       width: 150
       height: 200
     next:
@@ -28,8 +28,8 @@ MonoBehaviour:
       text: Hello my child!
       position:
         serializedVersion: 2
-        x: 231
-        y: 85
+        x: 304
+        y: 114
         width: 150
         height: 200
       next:
@@ -37,8 +37,8 @@ MonoBehaviour:
         text: I'm not your child.
         position:
           serializedVersion: 2
-          x: 437
-          y: 260
+          x: 526
+          y: 288
           width: 150
           height: 200
         next:
@@ -46,17 +46,26 @@ MonoBehaviour:
           text: Okay then...
           position:
             serializedVersion: 2
-            x: 690
-            y: 239
+            x: 757
+            y: 267
             width: 150
             height: 200
-          next: []
+          next:
+          - participant: -1
+            text: Weeeeeee
+            position:
+              serializedVersion: 2
+              x: 983
+              y: 161
+              width: 150
+              height: 200
+            next: []
       - participant: -1
         text: :)
         position:
           serializedVersion: 2
-          x: 473
-          y: 12
+          x: 560
+          y: 16
           width: 150
           height: 200
         next: []
