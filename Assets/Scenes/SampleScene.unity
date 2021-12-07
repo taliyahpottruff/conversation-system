@@ -189,8 +189,8 @@ MonoBehaviour:
     text: Okay so watch this...
     position:
       serializedVersion: 2
-      x: 35
-      y: 71
+      x: 15
+      y: 32
       width: 350
       height: 200
     next: 02000000
@@ -219,11 +219,11 @@ MonoBehaviour:
     text: Aaaand VOILA! I made the cube red!
     position:
       serializedVersion: 2
-      x: 426
-      y: 168
+      x: 396
+      y: 15
       width: 350
       height: 200
-    next: 
+    next: 03000000
     lineStart:
       m_PersistentCalls:
         m_Calls:
@@ -239,6 +239,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    lineEnd:
+      m_PersistentCalls:
+        m_Calls: []
+  - participant: -1
+    text: That's so cool
+    position:
+      serializedVersion: 2
+      x: 408
+      y: 324
+      width: 350
+      height: 200
+    next: 
+    lineStart:
+      m_PersistentCalls:
+        m_Calls: []
     lineEnd:
       m_PersistentCalls:
         m_Calls: []

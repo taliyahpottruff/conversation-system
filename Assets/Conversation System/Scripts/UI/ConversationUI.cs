@@ -59,7 +59,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
         {
             // Setup
             typing = true;
-            nametag.text = toType.participant.ToString(); // TODO: This is just an ID right now, needs to be a name
+            nametag.text = (toType.participant >= 0) ? m_conversation.participants[toType.participant].name : "Player"; // TODO: This is just an ID right now, needs to be a name
             text.text = "";
             toType.lineStart.Invoke();
 
