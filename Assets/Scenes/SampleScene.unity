@@ -185,14 +185,14 @@ MonoBehaviour:
   participants: []
   nodes:
   - participant: -1
-    text: Test
+    text: Okay so watch this...
     position:
       serializedVersion: 2
-      x: 81
-      y: 152
-      width: 150
+      x: 35
+      y: 72
+      width: 350
       height: 200
-    next: 01000000
+    next: 02000000
     lineStart:
       m_PersistentCalls:
         m_Calls: []
@@ -203,14 +203,41 @@ MonoBehaviour:
     text: New Node
     position:
       serializedVersion: 2
-      x: 352
-      y: 102
-      width: 150
+      x: 1119
+      y: 19
+      width: 350
       height: 200
     next: 
     lineStart:
       m_PersistentCalls:
         m_Calls: []
+    lineEnd:
+      m_PersistentCalls:
+        m_Calls: []
+  - participant: -1
+    text: Aaaand VOILA! I made the cube red!
+    position:
+      serializedVersion: 2
+      x: 426
+      y: 168
+      width: 350
+      height: 200
+    next: 
+    lineStart:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1406881454}
+          m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+          m_MethodName: set_material
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2100000, guid: a79122e3d36097641834482ae7639164, type: 2}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     lineEnd:
       m_PersistentCalls:
         m_Calls: []

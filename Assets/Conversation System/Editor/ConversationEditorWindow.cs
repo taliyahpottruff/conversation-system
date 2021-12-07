@@ -33,16 +33,18 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
             if (target != null)
             {
                 // Add nodes and connections
-                nodes = target.nodes;
                 SetupConnections(target);
+                Debug.Log(nodes.Count);
             }
         }
 
         private void SetupConnections(Conversation target)
         {
-            for (int i = 0; i < nodes.Count; i++)
+            for (int i = 0; i < target.nodes.Count; i++)
             {
                 var node = target.nodes[i];
+                nodes.Add(node);
+
                 // If any next nodes exist, add connections
                 foreach (var child in node.next)
                 {
@@ -57,6 +59,7 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
             target = null;
             if (selected != null)
             {
+                Debug.Log(selected.GetType());
                 if (selected.GetType() == typeof(GameObject))
                 {
                     var go = selected as GameObject;
@@ -64,6 +67,7 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
 
                     if (conversation != null)
                     {
+                        Debug.Log(conversation.nodes.Count);
                         target = conversation;
                     }
                 }
@@ -135,7 +139,7 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
                 target.nodes.Add(newNode);
                 var newID = target.nodes.Count - 1;
                 nodes[id].next.Add(newID);
-                //nodes.Add(newNode);
+                nodes.Add(newNode);
                 connections.Add(new ConversationEditorConnection(id, newID));
                 EditorUtility.SetDirty(target);
             }
@@ -161,12 +165,13 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
 
                 // Remove the node
                 nodes.Remove(nodeToDelete);
+                target.nodes.Remove(nodeToDelete);
 
                 EditorUtility.SetDirty(target);
             }
 
             SerializedObject serializedObject = new SerializedObject(target);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("lineStart"));
             serializedObject.ApplyModifiedProperties();
 
             GUI.DragWindow();
