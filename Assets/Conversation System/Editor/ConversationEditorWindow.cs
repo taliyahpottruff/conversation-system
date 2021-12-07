@@ -121,7 +121,12 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
         {
             var participant = (nodes[id].participant < 0) ? "Player" : target.participants[nodes[id].participant].name;
             // TODO: Make this not hardcoded
-            EditorGUILayout.Popup(0, new string[] { "Player", "John Smith" });
+            var lastParticipant = nodes[id].participant;
+            nodes[id].participant = EditorGUILayout.Popup(nodes[id].participant + 1, new string[] { "Player", "John Smith" }) - 1;
+            if (lastParticipant != nodes[id].participant)
+            {
+                EditorUtility.SetDirty(target);
+            }
 
             var previousText = nodes[id].text;
             nodes[id].text = GUILayout.TextArea(nodes[id].text);

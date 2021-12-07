@@ -182,14 +182,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7833007485812b4bbcc92c2eaeee711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  participants: []
+  participants:
+  - {fileID: 11400000, guid: 577e5f4a8c1ac264ebc7d8900cd48819, type: 2}
   nodes:
-  - participant: -1
+  - participant: 0
     text: Okay so watch this...
     position:
       serializedVersion: 2
       x: 35
-      y: 72
+      y: 71
       width: 350
       height: 200
     next: 02000000
@@ -199,7 +200,7 @@ MonoBehaviour:
     lineEnd:
       m_PersistentCalls:
         m_Calls: []
-  - participant: -1
+  - participant: -30
     text: New Node
     position:
       serializedVersion: 2
@@ -214,7 +215,7 @@ MonoBehaviour:
     lineEnd:
       m_PersistentCalls:
         m_Calls: []
-  - participant: -1
+  - participant: 0
     text: Aaaand VOILA! I made the cube red!
     position:
       serializedVersion: 2
