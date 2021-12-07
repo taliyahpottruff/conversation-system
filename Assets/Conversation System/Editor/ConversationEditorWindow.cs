@@ -33,23 +33,21 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
             if (target != null)
             {
                 // Add nodes and connections
-                NodesAndConnections(target.entryNode);
+                nodes = target.nodes;
+                SetupConnections(target);
             }
         }
 
-        private void NodesAndConnections(Node node)
+        private void SetupConnections(Conversation target)
         {
-            // If the node isn't already added, add it
-            if (!nodes.Contains(node))
+            for (int i = 0; i < nodes.Count; i++)
             {
-                nodes.Add(node);
-            }
-
-            // If any next nodes exist, add connections
-            foreach (var child in node.next)
-            {
-                connections.Add(new ConversationEditorConnection(node, child));
-                NodesAndConnections(child);
+                var node = target.nodes[i];
+                // If any next nodes exist, add connections
+                foreach (var child in node.next)
+                {
+                    connections.Add(new ConversationEditorConnection(i, child));
+                }
             }
         }
 
@@ -83,7 +81,7 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
                 // Draw curves
                 foreach (var connection in connections)
                 {
-                    DrawNodeCurve(connection.from.position, connection.to.position);
+                    DrawNodeCurve(nodes[connection.from].position, nodes[connection.to].position);
                 }
 
                 // Draw windows
@@ -134,9 +132,11 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
                 var newPosition = nodes[id].position;
                 newPosition.x += newPosition.width * 2;
                 var newNode = new Node("New Node", -1, newPosition);
-                nodes[id].next.Add(newNode);
-                nodes.Add(newNode);
-                connections.Add(new ConversationEditorConnection(nodes[id], newNode));
+                target.nodes.Add(newNode);
+                var newID = target.nodes.Count - 1;
+                nodes[id].next.Add(newID);
+                //nodes.Add(newNode);
+                connections.Add(new ConversationEditorConnection(id, newID));
                 EditorUtility.SetDirty(target);
             }
 
@@ -145,16 +145,16 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
                 var nodeToDelete = nodes[id];
 
                 // Remove all the connections associated with the node
-                var connectionsToBeDeleted = connections.FindAll(delegate (ConversationEditorConnection conn) { return conn.from == nodeToDelete || conn.to == nodeToDelete; });
+                var connectionsToBeDeleted = connections.FindAll(delegate (ConversationEditorConnection conn) { return conn.from == id || conn.to == id; });
                 foreach (var connection in connectionsToBeDeleted)
                 {
-                    if (connection.from == nodeToDelete)
+                    if (connection.from == id)
                     {
                         connections.Remove(connection);
                     }
-                    else if (connection.to == nodeToDelete)
+                    else if (connection.to == id)
                     {
-                        connection.from.next.Remove(nodeToDelete);
+                        nodes[connection.from].next.Remove(id);
                         connections.Remove(connection);
                     }
                 }
@@ -164,6 +164,10 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
 
                 EditorUtility.SetDirty(target);
             }
+
+            SerializedObject serializedObject = new SerializedObject(target);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id));
+            serializedObject.ApplyModifiedProperties();
 
             GUI.DragWindow();
         }
@@ -183,9 +187,9 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
     
     public struct ConversationEditorConnection
     {
-        public Node from, to;
+        public int from, to;
 
-        public ConversationEditorConnection(Node from, Node to)
+        public ConversationEditorConnection(int from, int to)
         {
             this.from = from;
             this.to = to;

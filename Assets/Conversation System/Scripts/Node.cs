@@ -11,7 +11,7 @@ namespace TaliyahPottruff.ConversationSystem
         public int participant;
         public string text;
         public Rect position;
-        public List<Node> next;
+        public List<int> next;
         public UnityEvent lineStart;
         public UnityEvent lineEnd;
 
@@ -35,7 +35,7 @@ namespace TaliyahPottruff.ConversationSystem
             this.participant = participant;
             this.text = text;
             this.position = position;
-            next = new List<Node>();
+            next = new List<int>();
         }
     }
 }

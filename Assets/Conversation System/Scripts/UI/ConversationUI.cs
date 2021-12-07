@@ -17,7 +17,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
         [SerializeField]
         private GameObject optionsHolder, optionButton, canvas;
 
-        private Node currentNode;
+        private int currentNode;
         private bool typing;
 
         private void Start()
@@ -28,24 +28,24 @@ namespace TaliyahPottruff.ConversationSystem.UI
         public void Init(Conversation conversation)
         {
             this.m_conversation = conversation;
-            currentNode = conversation.entryNode;
+            currentNode = 0;
             conversation.onStart.Invoke();
-            StartCoroutine(Typing_Coroutine(currentNode));
+            StartCoroutine(Typing_Coroutine(conversation.nodes[currentNode]));
         }
 
         private void Update()
         {
             // TODO: Temporary, please use new input system
-            if (Input.GetKeyDown(KeyCode.Space) && !typing && m_conversation != null && currentNode != null)
+            if (Input.GetKeyDown(KeyCode.Space) && !typing && m_conversation != null)
             {
                 // Hide the options if shown
                 optionsHolder.SetActive(false);
 
                 // TODO: Only do this if 1 or 0 options
-                if (currentNode.next.Count > 0)
+                if (m_conversation.nodes[currentNode].next.Count > 0)
                 {
-                    currentNode = currentNode.next[0];
-                    StartCoroutine(Typing_Coroutine(currentNode));
+                    currentNode = m_conversation.nodes[currentNode].next[0];
+                    StartCoroutine(Typing_Coroutine(m_conversation.nodes[currentNode]));
                 }
                 else
                 {
@@ -76,7 +76,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
                 {
                     var obj = Instantiate<GameObject>(optionButton, optionsHolder.transform);
                     var tmp = obj.GetComponentInChildren<TextMeshProUGUI>();
-                    tmp.text = option.text;
+                    tmp.text = m_conversation.nodes[option].text;
                 }
             }
 
