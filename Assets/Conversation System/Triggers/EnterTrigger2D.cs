@@ -1,16 +1,16 @@
-﻿using TaliyahPottruff.ConversationSystem.UI;
 using System.Collections;
-using System.Collections.Generic;
+using TaliyahPottruff.ConversationSystem.UI;
 using UnityEngine;
 
 namespace TaliyahPottruff.ConversationSystem.Triggers
 {
-    public class StartTrigger : MonoBehaviour
+    [RequireComponent(typeof(Collider2D))]
+    public class EnterTrigger2D : MonoBehaviour
     {
         public float delay;
         public Conversation conversation;
 
-        private void Start()
+        private void OnTriggerEnter2D(Collider2D collision)
         {
             StartCoroutine(StartConversation_Coroutine());
         }

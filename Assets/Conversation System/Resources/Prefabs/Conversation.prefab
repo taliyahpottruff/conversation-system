@@ -484,8 +484,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 960, y: 0}
-  m_SizeDelta: {x: 1920, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &145610222575635288
 MonoBehaviour:
@@ -586,6 +586,7 @@ MonoBehaviour:
   optionsHolder: {fileID: 3898803566122058301}
   optionButton: {fileID: 7742804526760012420, guid: bacb38adbab6d5140bd4f049283151e8, type: 3}
   canvas: {fileID: 3713934466266149510}
+  inputActions: {fileID: -944628639613478452, guid: 5ac8ce50946d5544380251edea336625, type: 3}
 --- !u!114 &2520248957730043175
 MonoBehaviour:
   m_ObjectHideFlags: 0

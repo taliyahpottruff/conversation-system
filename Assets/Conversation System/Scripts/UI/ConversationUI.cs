@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace TaliyahPottruff.ConversationSystem.UI
 {
@@ -16,6 +18,8 @@ namespace TaliyahPottruff.ConversationSystem.UI
         private TextMeshProUGUI nametag, text;
         [SerializeField]
         private GameObject optionsHolder, optionButton, canvas;
+        [SerializeField]
+        private InputActionAsset inputActions;
 
         private int currentNode;
         private bool typing;
@@ -23,6 +27,24 @@ namespace TaliyahPottruff.ConversationSystem.UI
         private void Start()
         {
             Debug.Log("Conversation UI initialized...");
+
+            try
+            {
+                inputActions.FindActionMap("Conversation").FindAction("Next", true).performed += NextControl_performed;
+                inputActions.Enable();
+            }
+            catch (NullReferenceException e)
+            {
+                Debug.LogError("Conversation System: No InputActionAsset is set in the conversation UI prefab. Please set it!");
+            }
+        }
+
+        private void NextControl_performed(InputAction.CallbackContext obj)
+        {
+            if (!typing && m_conversation != null && m_conversation.nodes[currentNode].next.Count < 2)
+            {
+                NextLine(0);
+            }
         }
 
         public void Init(Conversation conversation)
@@ -31,15 +53,6 @@ namespace TaliyahPottruff.ConversationSystem.UI
             currentNode = 0;
             conversation.onStart.Invoke();
             StartCoroutine(Typing_Coroutine(conversation.nodes[currentNode]));
-        }
-
-        private void Update()
-        {
-            // TODO: Temporary, please use new input system
-            if (Input.GetKeyDown(KeyCode.Space) && !typing && m_conversation != null && m_conversation.nodes[currentNode].next.Count < 2)
-            {
-                NextLine(0);
-            }
         }
 
         public void NextLine(int responseNumber)
