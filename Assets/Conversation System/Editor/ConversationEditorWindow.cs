@@ -36,12 +36,12 @@ namespace TaliyahPottruff.ConversationSystem.Editor
             if (target != null)
             {
                 // Add nodes and connections
-                SetupConnections(target);
+                SetupNodesAndConnections(target);
                 Debug.Log(nodes.Count);
             }
         }
 
-        private void SetupConnections(Conversation target)
+        private void SetupNodesAndConnections(Conversation target)
         {
             for (int i = 0; i < target.nodes.Count; i++)
             {
@@ -49,6 +49,17 @@ namespace TaliyahPottruff.ConversationSystem.Editor
                 nodes.Add(node);
 
                 // If any next nodes exist, add connections
+
+            }
+
+            SetupConnections();
+        }
+
+        private void SetupConnections()
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                var node = nodes[i];
                 foreach (var child in node.next)
                 {
                     connections.Add(new ConversationEditorConnection(i, child));
@@ -214,17 +225,40 @@ namespace TaliyahPottruff.ConversationSystem.Editor
                     if (connection.from == id)
                     {
                         connections.Remove(connection);
+                        continue;
                     }
                     else if (connection.to == id)
                     {
                         nodes[connection.from].next.Remove(id);
                         connections.Remove(connection);
+                        continue;
+                    }
+                }
+
+                // Decrease any ID references above current
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    for (int j = 0; j < nodes[i].next.Count; j++)
+                    {
+                        var next = nodes[i].next[j];
+
+                        if (next == id)
+                        {
+                            nodes[i].next.Remove(id);
+                        }
+                        else if (next > id)
+                        {
+                            nodes[i].next[j]--;
+                        }
                     }
                 }
 
                 // Remove the node
                 nodes.Remove(nodeToDelete);
                 target.nodes.Remove(nodeToDelete);
+
+                connections.Clear();
+                SetupConnections();
 
                 EditorUtility.SetDirty(target);
             }

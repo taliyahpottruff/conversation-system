@@ -190,7 +190,7 @@ MonoBehaviour:
     position:
       serializedVersion: 2
       x: 1
-      y: 197
+      y: 196.99982
       width: 350
       height: 200
     next: 02000000
@@ -204,8 +204,8 @@ MonoBehaviour:
     text: New Node
     position:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 700
+      y: 118.749725
       width: 350
       height: 200
     next: 
@@ -219,8 +219,8 @@ MonoBehaviour:
     text: Aaaand VOILA! I made the cube red!
     position:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 405.55072
+      y: -38.28195
       width: 350
       height: 200
     next: 0300000004000000
@@ -246,8 +246,8 @@ MonoBehaviour:
     text: That's so cool
     position:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 809.47485
+      y: -149.29108
       width: 350
       height: 200
     next: 
@@ -261,8 +261,8 @@ MonoBehaviour:
     text: I hate you
     position:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 899.9994
+      y: 118.749725
       width: 350
       height: 200
     next: 
