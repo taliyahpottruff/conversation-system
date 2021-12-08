@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 1032128678267426674}
   - component: {fileID: 3870350104821193047}
   - component: {fileID: 224198713929458234}
+  - component: {fileID: -7285658702937277753}
   m_Layer: 5
   m_Name: Response Option
   m_TagString: Untagged
@@ -256,4 +257,30 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3870350104821193047}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -7285658702937277753}
+        m_TargetAssemblyTypeName: TaliyahPottruff.ConversationSystem.ResponseButton,
+          Assembly-CSharp
+        m_MethodName: ChooseResponse
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &-7285658702937277753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7742804526760012420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c53ec3e22546944bf20d68818db651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  responseNumber: 0

@@ -36,22 +36,26 @@ namespace TaliyahPottruff.ConversationSystem.UI
         private void Update()
         {
             // TODO: Temporary, please use new input system
-            if (Input.GetKeyDown(KeyCode.Space) && !typing && m_conversation != null)
+            if (Input.GetKeyDown(KeyCode.Space) && !typing && m_conversation != null && m_conversation.nodes[currentNode].next.Count < 2)
             {
-                // Hide the options if shown
-                optionsHolder.SetActive(false);
+                NextLine(0);
+            }
+        }
 
-                // TODO: Only do this if 1 or 0 options
-                if (m_conversation.nodes[currentNode].next.Count > 0)
-                {
-                    currentNode = m_conversation.nodes[currentNode].next[0];
-                    StartCoroutine(Typing_Coroutine(m_conversation.nodes[currentNode]));
-                }
-                else
-                {
-                    // End of conversation
-                    Destroy(canvas);
-                }
+        public void NextLine(int responseNumber)
+        {
+            // Hide the options if shown
+            optionsHolder.SetActive(false);
+
+            if (m_conversation.nodes[currentNode].next.Count > 0)
+            {
+                currentNode = m_conversation.nodes[currentNode].next[responseNumber];
+                StartCoroutine(Typing_Coroutine(m_conversation.nodes[currentNode]));
+            }
+            else
+            {
+                // End of conversation
+                Destroy(canvas);
             }
         }
 
@@ -73,11 +77,15 @@ namespace TaliyahPottruff.ConversationSystem.UI
                     Destroy(child.gameObject);
                 }
                 // Show options
-                foreach (var option in toType.next)
+                for (int i = 0; i < toType.next.Count; i++)
                 {
+                    var option = toType.next[i];
                     var obj = Instantiate<GameObject>(optionButton, optionsHolder.transform);
                     var tmp = obj.GetComponentInChildren<TextMeshProUGUI>();
                     tmp.text = m_conversation.nodes[option].text;
+                    var rb = obj.GetComponentInChildren<ResponseButton>();
+                    rb.Init(this);
+                    rb.responseNumber = i;
                 }
             }
 
