@@ -10,6 +10,10 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 /[Uu]serSettings/
+
+# Ignore TextMesh Pro
+/[Aa]ssets/TextMesh Pro/
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
