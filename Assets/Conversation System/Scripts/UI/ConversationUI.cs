@@ -66,12 +66,13 @@ namespace TaliyahPottruff.ConversationSystem.UI
             // Show options if multiple branches exist
             if (toType.next.Count > 1)
             {
-                optionsHolder.SetActive(true);
+                // Clear previous options
                 for (int i = 0; i < optionsHolder.transform.childCount; i++)
                 {
                     var child = optionsHolder.transform.GetChild(i);
                     Destroy(child.gameObject);
                 }
+                // Show options
                 foreach (var option in toType.next)
                 {
                     var obj = Instantiate<GameObject>(optionButton, optionsHolder.transform);
@@ -89,6 +90,10 @@ namespace TaliyahPottruff.ConversationSystem.UI
             }
 
             // When finished
+            if (toType.next.Count > 1)
+            {
+                optionsHolder.SetActive(true);
+            }
             typing = false;
             toType.lineEnd.Invoke();
         }

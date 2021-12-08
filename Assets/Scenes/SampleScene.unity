@@ -219,11 +219,11 @@ MonoBehaviour:
     text: Aaaand VOILA! I made the cube red!
     position:
       serializedVersion: 2
-      x: 396
-      y: 15
+      x: 25
+      y: 276
       width: 350
       height: 200
-    next: 03000000
+    next: 0300000004000000
     lineStart:
       m_PersistentCalls:
         m_Calls:
@@ -246,8 +246,23 @@ MonoBehaviour:
     text: That's so cool
     position:
       serializedVersion: 2
-      x: 408
-      y: 324
+      x: 432
+      y: 25
+      width: 350
+      height: 200
+    next: 
+    lineStart:
+      m_PersistentCalls:
+        m_Calls: []
+    lineEnd:
+      m_PersistentCalls:
+        m_Calls: []
+  - participant: -1
+    text: I hate you
+    position:
+      serializedVersion: 2
+      x: 440
+      y: 260
       width: 350
       height: 200
     next: 
