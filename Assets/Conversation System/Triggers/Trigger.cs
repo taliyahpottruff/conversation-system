@@ -10,7 +10,7 @@ namespace TaliyahPottruff.ConversationSystem.Triggers
         public float delay;
         public Conversation conversation;
 
-        protected void Invoke()
+        public void Invoke()
         {
             if (ConversationUI.CURRENT_CONVERSATION == null)
             {
