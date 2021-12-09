@@ -8,8 +8,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
 {
     public class ConversationUI : MonoBehaviour
     {
-        private Conversation m_conversation;
-        public Conversation Conversation { get => m_conversation; }
+        public static Conversation CURRENT_CONVERSATION;
 
         [Range(0.1f, 50f)]
         public float charactersPerSecond = 25f;
@@ -33,7 +32,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
                 inputActions.FindActionMap("Conversation").FindAction("Next", true).performed += NextControl_performed;
                 inputActions.Enable();
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 Debug.LogError("Conversation System: No InputActionAsset is set in the conversation UI prefab. Please set it!");
             }
@@ -41,7 +40,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
 
         private void NextControl_performed(InputAction.CallbackContext obj)
         {
-            if (!typing && m_conversation != null && m_conversation.nodes[currentNode].next.Count < 2)
+            if (!typing && CURRENT_CONVERSATION != null && CURRENT_CONVERSATION.nodes[currentNode].next.Count < 2)
             {
                 NextLine(0);
             }
@@ -49,7 +48,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
 
         public void Init(Conversation conversation)
         {
-            this.m_conversation = conversation;
+            CURRENT_CONVERSATION = conversation;
             currentNode = 0;
             conversation.onStart.Invoke();
             StartCoroutine(Typing_Coroutine(conversation.nodes[currentNode]));
@@ -60,25 +59,31 @@ namespace TaliyahPottruff.ConversationSystem.UI
             // Hide the options if shown
             optionsHolder.SetActive(false);
 
-            if (m_conversation.nodes[currentNode].next.Count > 0)
+            if (CURRENT_CONVERSATION.nodes[currentNode].next.Count > 0)
             {
-                currentNode = m_conversation.nodes[currentNode].next[responseNumber];
-                StartCoroutine(Typing_Coroutine(m_conversation.nodes[currentNode]));
+                currentNode = CURRENT_CONVERSATION.nodes[currentNode].next[responseNumber];
+                StartCoroutine(Typing_Coroutine(CURRENT_CONVERSATION.nodes[currentNode]));
             }
             else
             {
                 // End of conversation
-                m_conversation.onFinish.Invoke();
-                inputActions.FindActionMap("Conversation").FindAction("Next", true).performed -= NextControl_performed;
-                Destroy(canvas);
+                EndConversation();
             }
+        }
+
+        public void EndConversation()
+        {
+            CURRENT_CONVERSATION.onFinish.Invoke();
+            inputActions.FindActionMap("Conversation").FindAction("Next", true).performed -= NextControl_performed;
+            CURRENT_CONVERSATION = null;
+            Destroy(canvas);
         }
 
         private IEnumerator Typing_Coroutine(Node toType)
         {
             // Setup
             typing = true;
-            nametag.text = (toType.participant >= 0) ? m_conversation.participants[toType.participant].name : "Player";
+            nametag.text = (toType.participant >= 0) ? CURRENT_CONVERSATION.participants[toType.participant].name : "Player";
             text.text = "";
             toType.lineStart.Invoke();
 
@@ -97,7 +102,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
                     var option = toType.next[i];
                     var obj = Instantiate<GameObject>(optionButton, optionsHolder.transform);
                     var tmp = obj.GetComponentInChildren<TextMeshProUGUI>();
-                    tmp.text = m_conversation.nodes[option].text;
+                    tmp.text = CURRENT_CONVERSATION.nodes[option].text;
                     var rb = obj.GetComponentInChildren<ResponseButton>();
                     rb.Init(this);
                     rb.responseNumber = i;

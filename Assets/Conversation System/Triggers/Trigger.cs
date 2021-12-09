@@ -12,7 +12,14 @@ namespace TaliyahPottruff.ConversationSystem.Triggers
 
         protected void Invoke()
         {
-            StartCoroutine(StartConversation_Coroutine());
+            if (ConversationUI.CURRENT_CONVERSATION == null)
+            {
+                StartCoroutine(StartConversation_Coroutine());
+            }
+            else
+            {
+                Debug.LogWarning("Conversation System: Cannot start conversation as one is already active.");
+            }
         }
 
         private IEnumerator StartConversation_Coroutine()
