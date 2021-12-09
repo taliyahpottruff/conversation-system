@@ -963,7 +963,7 @@ MonoBehaviour:
   participants: []
   nodes:
   - participant: -1
-    text: This trigger actives whenever a button is pressed!
+    text: This trigger activates whenever a button is pressed!
     position:
       serializedVersion: 2
       x: 0

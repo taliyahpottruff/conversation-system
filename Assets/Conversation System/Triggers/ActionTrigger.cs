@@ -14,6 +14,7 @@ public class ActionTrigger : Trigger
     {
         try
         {
+            // Set up event handler to invoke when a button is pressed
             inputActionsAsset.FindActionMap(actionMap).FindAction(action).performed += AreaActionTrigger_performed;
             inputActionsAsset.Enable();
         }
