@@ -35,6 +35,24 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""679750ca-8c9d-4b8a-8a48-88a61650f454"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Random"",
+                    ""type"": ""Button"",
+                    ""id"": ""6513107f-b700-461c-baa5-1cc0fd67ee20"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -92,6 +110,28 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""133657da-3dd9-4109-ac1e-0a08935b8063"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fa2e31ad-fd62-4429-9cac-b10669d0aaba"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Random"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -140,6 +180,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         // Demo
         m_Demo = asset.FindActionMap("Demo", throwIfNotFound: true);
         m_Demo_Movement = m_Demo.FindAction("Movement", throwIfNotFound: true);
+        m_Demo_Interact = m_Demo.FindAction("Interact", throwIfNotFound: true);
+        m_Demo_Random = m_Demo.FindAction("Random", throwIfNotFound: true);
         // Conversation
         m_Conversation = asset.FindActionMap("Conversation", throwIfNotFound: true);
         m_Conversation_Next = m_Conversation.FindAction("Next", throwIfNotFound: true);
@@ -203,11 +245,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Demo;
     private IDemoActions m_DemoActionsCallbackInterface;
     private readonly InputAction m_Demo_Movement;
+    private readonly InputAction m_Demo_Interact;
+    private readonly InputAction m_Demo_Random;
     public struct DemoActions
     {
         private @Controls m_Wrapper;
         public DemoActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Demo_Movement;
+        public InputAction @Interact => m_Wrapper.m_Demo_Interact;
+        public InputAction @Random => m_Wrapper.m_Demo_Random;
         public InputActionMap Get() { return m_Wrapper.m_Demo; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -220,6 +266,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Movement.started -= m_Wrapper.m_DemoActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_DemoActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_DemoActionsCallbackInterface.OnMovement;
+                @Interact.started -= m_Wrapper.m_DemoActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_DemoActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_DemoActionsCallbackInterface.OnInteract;
+                @Random.started -= m_Wrapper.m_DemoActionsCallbackInterface.OnRandom;
+                @Random.performed -= m_Wrapper.m_DemoActionsCallbackInterface.OnRandom;
+                @Random.canceled -= m_Wrapper.m_DemoActionsCallbackInterface.OnRandom;
             }
             m_Wrapper.m_DemoActionsCallbackInterface = instance;
             if (instance != null)
@@ -227,6 +279,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
+                @Random.started += instance.OnRandom;
+                @Random.performed += instance.OnRandom;
+                @Random.canceled += instance.OnRandom;
             }
         }
     }
@@ -267,6 +325,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     public interface IDemoActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnRandom(InputAction.CallbackContext context);
     }
     public interface IConversationActions
     {

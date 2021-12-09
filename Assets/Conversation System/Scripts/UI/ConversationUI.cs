@@ -70,7 +70,6 @@ namespace TaliyahPottruff.ConversationSystem.UI
                 // End of conversation
                 m_conversation.onFinish.Invoke();
                 inputActions.FindActionMap("Conversation").FindAction("Next", true).performed -= NextControl_performed;
-                inputActions.Disable();
                 Destroy(canvas);
             }
         }
