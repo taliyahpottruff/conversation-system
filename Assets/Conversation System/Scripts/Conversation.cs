@@ -9,5 +9,6 @@ namespace TaliyahPottruff.ConversationSystem
         public Character[] participants;
         public List<Node> nodes = new() { new Node("") };
         public UnityEvent onStart = new();
+        public UnityEvent onFinish = new();
     }
 }
