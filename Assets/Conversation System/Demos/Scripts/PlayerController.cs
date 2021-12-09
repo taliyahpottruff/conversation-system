@@ -17,13 +17,13 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         controls = new Controls();
-        controls.Demo.Movement.performed += ctx => inputVector = (canMove) ? ctx.ReadValue<Vector2>().normalized : Vector2.zero;
+        controls.Demo.Movement.performed += ctx => inputVector = ctx.ReadValue<Vector2>().normalized;
         controls.Enable();
     }
 
     private void Update()
     {
-        rb.velocity = inputVector * speed;
+        rb.velocity = ((canMove) ? inputVector : Vector2.zero) * speed;
     }
 
     public void SetCanMove(bool canMove)
