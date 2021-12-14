@@ -19,6 +19,8 @@ namespace TaliyahPottruff.ConversationSystem.UI
         private GameObject optionsHolder, optionButton, canvas;
         [SerializeField]
         private InputActionAsset inputActions;
+        [SerializeField]
+        private AudioSource audioSource;
 
         private int currentNode;
         private bool typing;
@@ -114,6 +116,10 @@ namespace TaliyahPottruff.ConversationSystem.UI
             for (int i = 0; i < characters; i++)
             {
                 text.text = toType.text.Substring(0, i + 1);
+                if (CURRENT_CONVERSATION.typeSound != null)
+                {
+                    audioSource.PlayOneShot(CURRENT_CONVERSATION.typeSound);
+                }
                 yield return new WaitForSeconds(1f / charactersPerSecond);
             }
 

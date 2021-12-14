@@ -202,6 +202,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  typeSound: {fileID: 8300000, guid: 099793adaee89c44b95c49bdc9a42edd, type: 3}
 --- !u!114 &141640962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -916,6 +917,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  typeSound: {fileID: 0}
 --- !u!114 &1518277587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -983,6 +985,7 @@ MonoBehaviour:
   onFinish:
     m_PersistentCalls:
       m_Calls: []
+  typeSound: {fileID: 0}
 --- !u!114 &1617116910
 MonoBehaviour:
   m_ObjectHideFlags: 0

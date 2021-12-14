@@ -10,5 +10,6 @@ namespace TaliyahPottruff.ConversationSystem
         public List<Node> nodes = new() { new Node("") };
         public UnityEvent onStart = new();
         public UnityEvent onFinish = new();
+        public AudioClip typeSound;
     }
 }
