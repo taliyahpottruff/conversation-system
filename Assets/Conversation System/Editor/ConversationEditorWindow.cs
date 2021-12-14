@@ -10,6 +10,7 @@ namespace TaliyahPottruff.ConversationSystem.Editor
 
         List<Node> nodes = new List<Node>();
         List<ConversationEditorConnection> connections = new List<ConversationEditorConnection>();
+        bool connecting;
 
         [MenuItem("Window/Conversation Editor")]
         static void ShowWindow()
@@ -127,7 +128,8 @@ namespace TaliyahPottruff.ConversationSystem.Editor
                 // Draw curves
                 foreach (var connection in connections)
                 {
-                    DrawNodeCurve(nodes[connection.from].position.Offset(_zoomCoordsOrigin), nodes[connection.to].position.Offset(_zoomCoordsOrigin));
+                    var mouse = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+                    DrawNodeCurve(nodes[connection.from].position.Offset(_zoomCoordsOrigin), ((connection.to >= 0) ? nodes[connection.to].position.Offset(_zoomCoordsOrigin) : new Rect(mouse, Vector2.zero)));
                 }
 
                 // Draw windows
@@ -192,12 +194,15 @@ namespace TaliyahPottruff.ConversationSystem.Editor
                 EditorUtility.SetDirty(target);
             }
 
-            var previousText = nodes[id].text;
-            nodes[id].text = GUILayout.TextArea(nodes[id].text);
+            /*var previousText = nodes[id].text;
+            nodes[id].text = GUILayout.TextArea(nodes[id].text,);
             if (!previousText.Equals(nodes[id].text))
             {
                 EditorUtility.SetDirty(target);
-            }
+            }*/
+            SerializedObject serializedObject = new SerializedObject(target);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("text"));
+
 
             if (GUILayout.Button("New Child"))
             {
@@ -258,11 +263,40 @@ namespace TaliyahPottruff.ConversationSystem.Editor
 
                 connections.Clear();
                 SetupConnections();
+
+                EditorUtility.SetDirty(target);
             }
 
-            SerializedObject serializedObject = new SerializedObject(target);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("lineStart"));
+            // Events
+            if (!nodes[id].skipLine)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("lineStart"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("lineEnd"));
+            }
+
+            // Options
+            GUILayout.Label("Options");
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("skipLine"));
             serializedObject.ApplyModifiedProperties();
+
+            // Connection Button
+            if (GUILayout.Button("Connect"))
+            {
+                if (!connecting)
+                {
+                    connections.Add(new ConversationEditorConnection(id, -1));
+                    connecting = true;
+                }
+                else
+                {
+                    var line = connections[connections.Count - 1];
+                    nodes[line.from].next.Add(id);
+                    line.to = id;
+                    connecting = false;
+                    connections.Clear();
+                    SetupConnections();
+                }
+            }
 
             GUI.DragWindow();
         }
