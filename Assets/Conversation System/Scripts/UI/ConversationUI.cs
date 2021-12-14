@@ -83,6 +83,14 @@ namespace TaliyahPottruff.ConversationSystem.UI
 
         private IEnumerator Typing_Coroutine(Node toType)
         {
+            // Skip this line if specified
+            if (toType.skipLine)
+            {
+                var nextId = toType.next[0];
+                toType = CURRENT_CONVERSATION.nodes[nextId];
+                currentNode = nextId;
+            }
+
             // Setup
             typing = true;
             nametag.text = (toType.participant >= 0) ? CURRENT_CONVERSATION.participants[toType.participant].name : "Player";

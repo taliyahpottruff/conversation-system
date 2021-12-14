@@ -63,7 +63,6 @@ namespace TaliyahPottruff.ConversationSystem.Editor
             GUI.EndGroup();        // End the group Unity begins automatically for an EditorWindow to clip out the window tab. This allows us to draw outside of the size of the EditorWindow.
 
             var rectScale = 1.0f / zoomScale;
-            Debug.Log($"Scale: {rectScale}");
             Rect clippedArea = screenCoordsArea.ScaleSizeBy(rectScale, screenCoordsArea.TopLeft());
             clippedArea.y += kEditorWindowTabHeight;
             GUI.BeginGroup(clippedArea);

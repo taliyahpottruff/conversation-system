@@ -190,10 +190,10 @@ MonoBehaviour:
     position:
       serializedVersion: 2
       x: 1
-      y: 196.99982
+      y: 197
       width: 350
-      height: 200
-    next: 02000000
+      height: 405
+    next: 01000000
     lineStart:
       m_PersistentCalls:
         m_Calls: []
@@ -201,31 +201,16 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     typeSound: {fileID: 0}
-  - participant: -1
-    text: New Node
-    position:
-      serializedVersion: 2
-      x: 700
-      y: 118.749725
-      width: 350
-      height: 200
-    next: 
-    lineStart:
-      m_PersistentCalls:
-        m_Calls: []
-    lineEnd:
-      m_PersistentCalls:
-        m_Calls: []
-    typeSound: {fileID: 0}
+    skipLine: 0
   - participant: 0
     text: Aaaand VOILA! I made the cube red!
     position:
       serializedVersion: 2
-      x: 405.55072
-      y: -38.28195
+      x: 405.55078
+      y: -38.28193
       width: 350
-      height: 200
-    next: 0300000004000000
+      height: 405
+    next: 0200000003000000
     lineStart:
       m_PersistentCalls:
         m_Calls:
@@ -245,14 +230,15 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     typeSound: {fileID: 0}
+    skipLine: 0
   - participant: -1
     text: That's so cool
     position:
       serializedVersion: 2
-      x: 809.47485
+      x: 809.475
       y: -149.29108
       width: 350
-      height: 200
+      height: 405
     next: 
     lineStart:
       m_PersistentCalls:
@@ -261,15 +247,16 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     typeSound: {fileID: 0}
+    skipLine: 0
   - participant: -1
-    text: I hate you
+    text: '[Stare Blankly]'
     position:
       serializedVersion: 2
-      x: 899.9994
-      y: 118.749725
+      x: 837.17004
+      y: 285.74945
       width: 350
-      height: 200
-    next: 
+      height: 405
+    next: 04000000
     lineStart:
       m_PersistentCalls:
         m_Calls: []
@@ -277,6 +264,24 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     typeSound: {fileID: 8300000, guid: a82bf56b737ec03468bad593eff2bafd, type: 3}
+    skipLine: 1
+  - participant: 0
+    text: Do you have to stare?
+    position:
+      serializedVersion: 2
+      x: 1265.2188
+      y: 283.31042
+      width: 350
+      height: 405
+    next: 
+    lineStart:
+      m_PersistentCalls:
+        m_Calls: []
+    lineEnd:
+      m_PersistentCalls:
+        m_Calls: []
+    typeSound: {fileID: 0}
+    skipLine: 0
   onStart:
     m_PersistentCalls:
       m_Calls: []
