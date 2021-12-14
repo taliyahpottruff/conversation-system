@@ -190,7 +190,7 @@ MonoBehaviour:
     position:
       serializedVersion: 2
       x: 1
-      y: 196.99982
+      y: 196.99994
       width: 350
       height: 200
     next: 02000000
@@ -205,8 +205,8 @@ MonoBehaviour:
     text: New Node
     position:
       serializedVersion: 2
-      x: 700
-      y: 118.749725
+      x: 517.14294
+      y: 294.464
       width: 350
       height: 200
     next: 
@@ -262,11 +262,11 @@ MonoBehaviour:
         m_Calls: []
     typeSound: {fileID: 0}
   - participant: -1
-    text: I hate you
+    text: '[Stare Blankly]'
     position:
       serializedVersion: 2
-      x: 899.9994
-      y: 118.749725
+      x: 913.99927
+      y: 85.74965
       width: 350
       height: 200
     next: 

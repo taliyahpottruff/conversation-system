@@ -132,14 +132,13 @@ namespace TaliyahPottruff.ConversationSystem.Editor
 
                 // Draw windows
                 BeginWindows();
-                Debug.Log($"Offset: {_zoomCoordsOrigin}");
                 //target.entryNode.position = GUI.Window(1, target.entryNode.position, DrawNodeWindow, target.entryNode.text);   // Updates the Rect's when these are dragged
                 for (int i = 0; i < nodes.Count; i++)
                 {
                     var node = nodes[i];
                     var previousPosition = node.position.Offset(_zoomCoordsOrigin);
                     node.position = GUI.Window(i, node.position.Offset(_zoomCoordsOrigin), DrawNodeWindow, "").Offset(_zoomCoordsOrigin * -1);
-                    if (!node.position.Equals(previousPosition))
+                    if (!node.position.Equals(previousPosition.Offset(_zoomCoordsOrigin * -1)))
                     {
                         EditorUtility.SetDirty(target);
                     }
@@ -259,8 +258,6 @@ namespace TaliyahPottruff.ConversationSystem.Editor
 
                 connections.Clear();
                 SetupConnections();
-
-                EditorUtility.SetDirty(target);
             }
 
             SerializedObject serializedObject = new SerializedObject(target);
