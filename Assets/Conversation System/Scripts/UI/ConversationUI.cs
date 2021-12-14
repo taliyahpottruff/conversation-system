@@ -91,9 +91,17 @@ namespace TaliyahPottruff.ConversationSystem.UI
                 toType.lineEnd.Invoke();
 
                 // Set next node
-                var nextId = toType.next[0];
-                toType = CURRENT_CONVERSATION.nodes[nextId];
-                currentNode = nextId;
+                if (toType.next.Count > 0)
+                {
+                    var nextId = toType.next[0];
+                    toType = CURRENT_CONVERSATION.nodes[nextId];
+                    currentNode = nextId;
+                }
+                else
+                {
+                    EndConversation();
+                    yield break;
+                }
             }
 
             // Setup
