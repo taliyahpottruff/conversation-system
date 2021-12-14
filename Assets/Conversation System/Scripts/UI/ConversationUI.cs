@@ -86,6 +86,11 @@ namespace TaliyahPottruff.ConversationSystem.UI
             // Skip this line if specified
             if (toType.skipLine)
             {
+                // Execute events first
+                toType.lineStart.Invoke();
+                toType.lineEnd.Invoke();
+
+                // Set next node
                 var nextId = toType.next[0];
                 toType = CURRENT_CONVERSATION.nodes[nextId];
                 currentNode = nextId;

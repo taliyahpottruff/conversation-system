@@ -268,11 +268,8 @@ namespace TaliyahPottruff.ConversationSystem.Editor
             }
 
             // Events
-            if (!nodes[id].skipLine)
-            {
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("lineStart"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("lineEnd"));
-            }
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("lineStart"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("lineEnd"));
 
             // Options
             GUILayout.Label("Options");
