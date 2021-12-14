@@ -2,7 +2,8 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace TaliyahPottruff.ConversationSystem.Editor {
+namespace TaliyahPottruff.ConversationSystem.Editor
+{
     public class ConversationEditorWindow : EditorWindow
     {
         Conversation target;
@@ -22,6 +23,8 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
         {
             titleContent = new GUIContent("Conversation Editor");
 
+            _zoomArea = new(0, 0, position.width - 250, position.height);
+
             OnSelectionChange();
         }
 
@@ -33,12 +36,12 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
             if (target != null)
             {
                 // Add nodes and connections
-                SetupConnections(target);
+                SetupNodesAndConnections(target);
                 Debug.Log(nodes.Count);
             }
         }
 
-        private void SetupConnections(Conversation target)
+        private void SetupNodesAndConnections(Conversation target)
         {
             for (int i = 0; i < target.nodes.Count; i++)
             {
@@ -46,6 +49,17 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
                 nodes.Add(node);
 
                 // If any next nodes exist, add connections
+
+            }
+
+            SetupConnections();
+        }
+
+        private void SetupConnections()
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                var node = nodes[i];
                 foreach (var child in node.next)
                 {
                     connections.Add(new ConversationEditorConnection(i, child));
@@ -75,27 +89,56 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
             RefreshNodes();
         }
 
+        private const float kZoomMin = 0.1f;
+        private const float kZoomMax = 10.0f;
+
+        private Rect _zoomArea = Rect.zero;
+        private float _zoom = 1.0f;
+        private Vector2 _zoomCoordsOrigin = Vector2.zero;
+
+        private Vector2 ConvertScreenCoordsToZoomCoords(Vector2 screenCoords)
+        {
+            return (screenCoords - _zoomArea.TopLeft()) / _zoom + _zoomCoordsOrigin;
+        }
+
         private void OnGUI()
         {
+            // Sidebar Area
+            GUIUtility.ScaleAroundPivot(Vector2.one, Vector2.zero);
+            GUILayout.BeginArea(new Rect(position.width - 250, 0, 250, position.height));
+            GUILayout.Label(target.name);
+            GUILayout.Space(10);
+            GUILayout.Label("Participants");
+            foreach (var participant in target.participants)
+            {
+                GUILayout.Label(participant.name);
+            }
+            GUILayout.EndArea();
+
+            // Node Area
+            var area = EditorZoomArea.Begin(_zoom, _zoomArea);
             if (target != null && connections != null && nodes != null)
             {
+                HandleEvents();
+
                 // Node Area
-                GUILayout.BeginArea(new Rect(0, 0, position.width - 250, position.height));
+                GUILayout.BeginArea(area);
                 //DrawNodeCurve(window1, window2); // Here the curve is drawn under the windows
                 // Draw curves
                 foreach (var connection in connections)
                 {
-                    DrawNodeCurve(nodes[connection.from].position, nodes[connection.to].position);
+                    DrawNodeCurve(nodes[connection.from].position.Offset(_zoomCoordsOrigin), nodes[connection.to].position.Offset(_zoomCoordsOrigin));
                 }
 
                 // Draw windows
                 BeginWindows();
+                Debug.Log($"Offset: {_zoomCoordsOrigin}");
                 //target.entryNode.position = GUI.Window(1, target.entryNode.position, DrawNodeWindow, target.entryNode.text);   // Updates the Rect's when these are dragged
                 for (int i = 0; i < nodes.Count; i++)
                 {
                     var node = nodes[i];
-                    var previousPosition = node.position;
-                    node.position = GUI.Window(i, node.position, DrawNodeWindow, "");
+                    var previousPosition = node.position.Offset(_zoomCoordsOrigin);
+                    node.position = GUI.Window(i, node.position.Offset(_zoomCoordsOrigin), DrawNodeWindow, "").Offset(_zoomCoordsOrigin * -1);
                     if (!node.position.Equals(previousPosition))
                     {
                         EditorUtility.SetDirty(target);
@@ -103,17 +146,39 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
                 }
                 EndWindows();
                 GUILayout.EndArea();
+                EditorZoomArea.End();
+            }
+        }
 
-                // Sidebar Area
-                GUILayout.BeginArea(new Rect(position.width - 250, 0, 250, position.height));
-                GUILayout.Label(target.name);
-                GUILayout.Space(10);
-                GUILayout.Label("Participants");
-                foreach (var participant in target.participants)
-                {
-                    GUILayout.Label(participant.name);
-                }
-                GUILayout.EndArea();
+        private void HandleEvents()
+        {
+            // Allow adjusting the zoom with the mouse wheel as well. In this case, use the mouse coordinates
+            // as the zoom center instead of the top left corner of the zoom area. This is achieved by
+            // maintaining an origin that is used as offset when drawing any GUI elements in the zoom area.
+            if (Event.current.type == EventType.ScrollWheel)
+            {
+                Vector2 screenCoordsMousePos = Event.current.mousePosition;
+                Vector2 delta = Event.current.delta;
+                Vector2 zoomCoordsMousePos = ConvertScreenCoordsToZoomCoords(screenCoordsMousePos);
+                float zoomDelta = -delta.y / 150.0f;
+                float oldZoom = _zoom;
+                _zoom += zoomDelta;
+                _zoom = Mathf.Clamp(_zoom, kZoomMin, kZoomMax);
+                _zoomCoordsOrigin += (zoomCoordsMousePos - _zoomCoordsOrigin) - (oldZoom / _zoom) * (zoomCoordsMousePos - _zoomCoordsOrigin);
+
+                Event.current.Use();
+            }
+
+            // Allow moving the zoom area's origin by dragging with the middle mouse button or dragging
+            // with the left mouse button with Alt pressed.
+            if (Event.current.type == EventType.MouseDrag &&
+                Event.current.button == 1)
+            {
+                Vector2 delta = Event.current.delta;
+                delta /= _zoom;
+                _zoomCoordsOrigin += delta;
+
+                Event.current.Use();
             }
         }
 
@@ -160,17 +225,40 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
                     if (connection.from == id)
                     {
                         connections.Remove(connection);
+                        continue;
                     }
                     else if (connection.to == id)
                     {
                         nodes[connection.from].next.Remove(id);
                         connections.Remove(connection);
+                        continue;
+                    }
+                }
+
+                // Decrease any ID references above current
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    for (int j = 0; j < nodes[i].next.Count; j++)
+                    {
+                        var next = nodes[i].next[j];
+
+                        if (next == id)
+                        {
+                            nodes[i].next.Remove(id);
+                        }
+                        else if (next > id)
+                        {
+                            nodes[i].next[j]--;
+                        }
                     }
                 }
 
                 // Remove the node
                 nodes.Remove(nodeToDelete);
                 target.nodes.Remove(nodeToDelete);
+
+                connections.Clear();
+                SetupConnections();
 
                 EditorUtility.SetDirty(target);
             }
@@ -194,7 +282,7 @@ namespace TaliyahPottruff.ConversationSystem.Editor {
             Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.white, null, 1);
         }
     }
-    
+
     public struct ConversationEditorConnection
     {
         public int from, to;

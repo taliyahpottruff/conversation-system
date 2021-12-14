@@ -14,6 +14,7 @@ namespace TaliyahPottruff.ConversationSystem
         public List<int> next;
         public UnityEvent lineStart;
         public UnityEvent lineEnd;
+        public AudioClip typeSound;
 
         public Node() : this("", -1, new Rect(0, 0, 350, 200))
         {
