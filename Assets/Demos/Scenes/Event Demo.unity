@@ -200,6 +200,7 @@ MonoBehaviour:
     lineEnd:
       m_PersistentCalls:
         m_Calls: []
+    typeSound: {fileID: 0}
   - participant: -1
     text: New Node
     position:
@@ -215,6 +216,7 @@ MonoBehaviour:
     lineEnd:
       m_PersistentCalls:
         m_Calls: []
+    typeSound: {fileID: 0}
   - participant: 0
     text: Aaaand VOILA! I made the cube red!
     position:
@@ -242,6 +244,7 @@ MonoBehaviour:
     lineEnd:
       m_PersistentCalls:
         m_Calls: []
+    typeSound: {fileID: 0}
   - participant: -1
     text: That's so cool
     position:
@@ -257,6 +260,7 @@ MonoBehaviour:
     lineEnd:
       m_PersistentCalls:
         m_Calls: []
+    typeSound: {fileID: 0}
   - participant: -1
     text: I hate you
     position:
@@ -272,6 +276,7 @@ MonoBehaviour:
     lineEnd:
       m_PersistentCalls:
         m_Calls: []
+    typeSound: {fileID: 8300000, guid: a82bf56b737ec03468bad593eff2bafd, type: 3}
   onStart:
     m_PersistentCalls:
       m_Calls: []

@@ -116,7 +116,11 @@ namespace TaliyahPottruff.ConversationSystem.UI
             for (int i = 0; i < characters; i++)
             {
                 text.text = toType.text.Substring(0, i + 1);
-                if (CURRENT_CONVERSATION.typeSound != null)
+                if (toType.typeSound != null)
+                { 
+                    audioSource.PlayOneShot(toType.typeSound);
+                }
+                else if (CURRENT_CONVERSATION.typeSound != null)
                 {
                     audioSource.PlayOneShot(CURRENT_CONVERSATION.typeSound);
                 }
