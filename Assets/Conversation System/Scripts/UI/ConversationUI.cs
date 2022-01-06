@@ -106,9 +106,17 @@ namespace TaliyahPottruff.ConversationSystem.UI
 
             // Setup
             typing = true;
-            nametag.text = (toType.participant >= 0) ? CURRENT_CONVERSATION.participants[toType.participant].name : "Player";
             text.text = "";
             toType.lineStart.Invoke();
+            if (toType.hideName)
+            {
+                nametag.enabled = false;
+            }
+            else
+            {
+                nametag.enabled = true;
+                nametag.text = (toType.participant >= 0) ? CURRENT_CONVERSATION.participants[toType.participant].name : "Player";
+            }
 
             // Show options if multiple branches exist
             if (toType.next.Count > 1)
