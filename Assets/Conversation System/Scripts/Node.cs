@@ -15,7 +15,7 @@ namespace TaliyahPottruff.ConversationSystem
         public List<int> next;
         public UnityEvent lineStart, lineEnd;
         public AudioClip typeSound;
-        public bool skipLine;
+        public bool skipLine, hideName;
 
         public Node() : this("", -1, new Rect(0, 0, 350, 405))
         {
