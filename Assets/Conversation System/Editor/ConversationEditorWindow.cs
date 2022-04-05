@@ -208,8 +208,8 @@ namespace TaliyahPottruff.ConversationSystem.Editor
             {
                 Debug.Log("Creating a new child node...");
                 var newPosition = nodes[id].position;
-                newPosition.x += newPosition.width * 2;
-                var newNode = new Node("New Node", -1, newPosition);
+                newPosition.x += newPosition.width * 1.2f;
+                var newNode = new Node("New Node", nodes[id].participant, newPosition);
                 target.nodes.Add(newNode);
                 var newID = target.nodes.Count - 1;
                 nodes[id].next.Add(newID);
