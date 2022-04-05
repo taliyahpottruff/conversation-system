@@ -9,26 +9,32 @@ namespace TaliyahPottruff.ConversationSystem.Triggers
     {
         public float delay;
         public Conversation conversation;
+        public bool disabled;
 
         public void Invoke()
         {
-            if (ConversationUI.CURRENT_CONVERSATION == null)
+            if (!disabled)
             {
                 StartCoroutine(StartConversation_Coroutine());
-            }
-            else
-            {
-                Debug.LogWarning("Conversation System: Cannot start conversation as one is already active.");
             }
         }
 
         private IEnumerator StartConversation_Coroutine()
         {
+
             yield return new WaitForSeconds(delay);
-            Debug.Log("Start Conversation...");
-            var obj = Instantiate(Resources.Load<GameObject>("Prefabs/Conversation"));
-            var ui = obj.GetComponentInChildren<ConversationUI>();
-            ui.Init(conversation);
+            if (ConversationUI.CURRENT_CONVERSATION == null)
+            {
+                disabled = true;
+                Debug.Log("Start Conversation...");
+                var obj = Instantiate(Resources.Load<GameObject>("Prefabs/Conversation"));
+                var ui = obj.GetComponentInChildren<ConversationUI>();
+                ui.Init(conversation);
+            }
+            else
+            {
+                Debug.LogWarning("Conversation System: Cannot start conversation as one is already active.");
+            }
         }
     }
 }
