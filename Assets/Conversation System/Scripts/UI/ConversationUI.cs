@@ -42,9 +42,16 @@ namespace TaliyahPottruff.ConversationSystem.UI
 
         private void NextControl_performed(InputAction.CallbackContext obj)
         {
-            if (!typing && CURRENT_CONVERSATION != null && CURRENT_CONVERSATION.nodes[currentNode].next.Count < 2)
+            if (CURRENT_CONVERSATION != null)
             {
-                NextLine(0);
+                if (!typing && CURRENT_CONVERSATION.nodes[currentNode].next.Count < 2)
+                {
+                    NextLine(0);
+                }
+                else if (typing)
+                {
+                    typing = false;
+                }
             }
         }
 
@@ -144,6 +151,12 @@ namespace TaliyahPottruff.ConversationSystem.UI
             var characters = toType.text.Length;
             for (int i = 0; i < characters; i++)
             {
+                if (!typing)
+                {
+                    text.text = toType.text;
+                    break;
+                }
+
                 text.text = toType.text.Substring(0, i + 1);
                 if (toType.typeSound != null)
                 { 
