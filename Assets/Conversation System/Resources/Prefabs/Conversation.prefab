@@ -203,7 +203,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: fd6e09642f1ea884b9c6d680a001e674, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -585,9 +585,11 @@ MonoBehaviour:
   nametag: {fileID: 2249800103267119245}
   text: {fileID: 2249800104779272686}
   optionsHolder: {fileID: 3898803566122058301}
-  optionButton: {fileID: 7742804526760012420, guid: bacb38adbab6d5140bd4f049283151e8, type: 3}
+  optionButton: {fileID: 7742804526760012420, guid: bacb38adbab6d5140bd4f049283151e8,
+    type: 3}
   canvas: {fileID: 3713934466266149510}
-  inputActions: {fileID: -944628639613478452, guid: 5ac8ce50946d5544380251edea336625, type: 3}
+  inputActions: {fileID: -944628639613478452, guid: a6683e9819fedbd448ef8bf7e9e0a3fd,
+    type: 3}
   audioSource: {fileID: 1522279669039436254}
 --- !u!114 &2520248957730043175
 MonoBehaviour:

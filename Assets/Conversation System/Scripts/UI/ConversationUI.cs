@@ -115,7 +115,7 @@ namespace TaliyahPottruff.ConversationSystem.UI
             typing = true;
             text.text = "";
             toType.lineStart.Invoke();
-            if (toType.hideName)
+            if (toType.hideName || toType.participant == -2)
             {
                 nametag.enabled = false;
             }

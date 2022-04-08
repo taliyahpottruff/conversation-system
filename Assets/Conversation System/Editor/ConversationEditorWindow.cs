@@ -11,6 +11,7 @@ namespace TaliyahPottruff.ConversationSystem.Editor
         List<Node> nodes = new List<Node>();
         List<ConversationEditorConnection> connections = new List<ConversationEditorConnection>();
         bool connecting;
+        string[] participants;
 
         [MenuItem("Window/Conversation Editor")]
         static void ShowWindow()
@@ -68,6 +69,9 @@ namespace TaliyahPottruff.ConversationSystem.Editor
             }
         }
 
+        /// <summary>
+        /// Called when a new object in the hierarchy is selected
+        /// </summary>
         private void OnSelectionChange()
         {
             var selected = Selection.activeObject;
@@ -84,6 +88,14 @@ namespace TaliyahPottruff.ConversationSystem.Editor
                     {
                         Debug.Log(conversation.nodes.Count);
                         target = conversation;
+
+                        // Setup participants
+                        List<string> participants = new List<string>() { "~Narration~", "~Player~" };
+                        foreach (var character in target.participants)
+                        {
+                            participants.Add(character.name);
+                        }
+                        this.participants = participants.ToArray();
                     }
                 }
             }
@@ -188,18 +200,12 @@ namespace TaliyahPottruff.ConversationSystem.Editor
             var participant = (nodes[id].participant < 0) ? "Player" : target.participants[nodes[id].participant].name;
             // TODO: Make this not hardcoded
             var lastParticipant = nodes[id].participant;
-            nodes[id].participant = EditorGUILayout.Popup(nodes[id].participant + 1, new string[] { "Player", "John Smith" }) - 1;
+            nodes[id].participant = EditorGUILayout.Popup(nodes[id].participant + 2, participants) - 2;
             if (lastParticipant != nodes[id].participant)
             {
                 EditorUtility.SetDirty(target);
             }
 
-            /*var previousText = nodes[id].text;
-            nodes[id].text = GUILayout.TextArea(nodes[id].text,);
-            if (!previousText.Equals(nodes[id].text))
-            {
-                EditorUtility.SetDirty(target);
-            }*/
             SerializedObject serializedObject = new SerializedObject(target);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("nodes").GetArrayElementAtIndex(id).FindPropertyRelative("text"));
 
